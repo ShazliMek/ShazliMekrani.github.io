@@ -1,4 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
+
+My personal portfolio website built with Next.js, React, and TailwindCSS.
+
+## Features
+
+- Modern UI with animations powered by Framer Motion
+- Responsive design that works on all devices
+- Project showcases with filtering by category
+- Tech stack display with icons
+- Contact form using Resend email API
+- Dark mode support
+
+## Deployment
+
+This site is automatically deployed to GitHub Pages using GitHub Actions.
+Last deployment: June 23, 2025
 
 ## Getting Started
 
