@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import GradientBackground from "@/components/GradientBackground";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <Script id="base-path-script" strategy="beforeInteractive">
+          {`
+            // Add base tag for GitHub Pages
+            const baseElement = document.createElement('base');
+            // Check if we're on GitHub Pages
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            if (isGitHubPages) {
+              // Get the pathname segments
+              const pathSegments = window.location.pathname.split('/');
+              // If the site is at username.github.io/repo-name
+              if (pathSegments.length > 1) {
+                baseElement.href = '/' + pathSegments[1] + '/';
+              }
+            }
+            document.head.appendChild(baseElement);
+          `}
+        </Script>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <GradientBackground />
         {children}

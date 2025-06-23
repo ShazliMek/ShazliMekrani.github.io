@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { getImagePath } from "../utils/imagePath";
 
 // Define the type for a project
 interface Project {
@@ -165,7 +166,7 @@ const Projects = () => {
               {/* Project image */}
               <div className="aspect-video w-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img 
-                  src={project.image} 
+                  src={getImagePath(project.image)} 
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
