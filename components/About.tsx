@@ -58,7 +58,7 @@ const About = () => {
             </p>
             <p className="text-gray-600 dark:text-gray-300">
               When I&apos;m not coding, you can find me exploring new technologies, contributing to open-source 
-              projects, or sharing my knowledge through technical articles and mentoring.
+              projects, mentoring my juniors, in the gym, reading or playing tennis.
             </p>
             
             <div className="flex flex-wrap gap-3 mt-6">
