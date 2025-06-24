@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  // No basePath needed for username.github.io repos
-  // basePath: '',
+  // For GitHub Pages username.github.io repositories
+  // If this is deployed to https://username.github.io/
+  // we don't need a basePath
+  basePath: '',
+  // Make sure to add this to fix images
+  assetPrefix: '.',
   // Make images work with static export
   images: {
     unoptimized: true,

@@ -28,21 +28,42 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <Script id="base-path-script" strategy="beforeInteractive">
+        <Script id="fix-paths-script" strategy="beforeInteractive">
           {`
-            // Add base tag for GitHub Pages
-            const baseElement = document.createElement('base');
-            // Check if we're on GitHub Pages
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            if (isGitHubPages) {
-              // Get the pathname segments
-              const pathSegments = window.location.pathname.split('/');
-              // If the site is at username.github.io/repo-name
-              if (pathSegments.length > 1) {
-                baseElement.href = '/' + pathSegments[1] + '/';
+            // Fix paths for GitHub Pages
+            (function() {
+              // Add base tag for GitHub Pages
+              const baseElement = document.createElement('base');
+              
+              // Check if we're on GitHub Pages
+              const isGitHubPages = window.location.hostname.includes('github.io');
+              
+              if (isGitHubPages) {
+                // For username.github.io repos, we don't need a path segment
+                if (window.location.hostname.split('.')[0] === window.location.hostname.split('.github.io')[0]) {
+                  baseElement.href = '/';
+                } else {
+                  // For project repos, we need the repo name
+                  const pathSegments = window.location.pathname.split('/');
+                  if (pathSegments.length > 1) {
+                    baseElement.href = '/' + pathSegments[1] + '/';
+                  }
+                }
+                
+                // Define a global helper for image paths
+                window.__fixImagePath = function(path) {
+                  if (!path || path === '/') return './placeholder.jpg';
+                  if (path.startsWith('http') || path.startsWith('data:')) return path;
+                  return './' + (path.startsWith('/') ? path.substring(1) : path);
+                };
+              } else {
+                // Development environment
+                baseElement.href = '/';
+                window.__fixImagePath = function(path) { return path; };
               }
-            }
-            document.head.appendChild(baseElement);
+              
+              document.head.appendChild(baseElement);
+            })();
           `}
         </Script>
       </head>
