@@ -1,25 +1,24 @@
 "use client";
 
-// This utility ensures that image paths work correctly in both development 
-// and when deployed to GitHub Pages
+// IMPORTANT: This utility fixes image paths for GitHub Pages user sites
+// For ShazliMekrani.github.io
 
 export function getImagePath(path: string): string {
-  if (!path) return '/placeholder.jpg';
+  // Handle empty paths
+  if (!path) return 'placeholder.jpg'; // No leading slash
+  
+  // External URLs stay as-is
   if (path.startsWith('http') || path.startsWith('data:')) return path;
-
-  // Use <base> tag if present (for GitHub Pages)
-  if (typeof document !== 'undefined') {
-    const baseTag = document.querySelector('base');
-    if (baseTag && baseTag.getAttribute('href')) {
-      const baseHref = baseTag.getAttribute('href')!;
-      // Remove leading slash from path to avoid double slashes
-      const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-      return baseHref.endsWith('/')
-        ? `${baseHref}${cleanPath}`
-        : `${baseHref}/${cleanPath}`;
+  
+  // CRITICAL FIX FOR GITHUB PAGES: Use relative paths without leading slash
+  if (typeof window !== 'undefined') {
+    // For GitHub Pages user sites (username.github.io)
+    if (window.location.hostname.includes('github.io')) {
+      // Remove leading slash for GitHub Pages
+      return path.startsWith('/') ? path.substring(1) : path;
     }
   }
-
-  // Fallback for SSR or if no base tag
+  
+  // Local development: use absolute paths
   return path.startsWith('/') ? path : `/${path}`;
 }

@@ -32,42 +32,40 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* Advanced base path setup for GitHub Pages */}
-        <Script id="base-path-script" strategy="beforeInteractive">
+        {/* GitHub Pages debugging script */}
+        <Script id="github-pages-debug" strategy="beforeInteractive">
           {`
             (function() {
-              // For GitHub Pages deployments
-              if (window.location.hostname.includes('github.io')) {
-                // Get the repository name from the pathname
-                const pathParts = window.location.pathname.split('/');
-                const repoName = pathParts[1] || '';
+              // Log information useful for debugging image paths
+              window.addEventListener('DOMContentLoaded', function() {
+                const isGitHubPages = window.location.hostname.includes('github.io');
+                console.log('Environment info:', {
+                  hostname: window.location.hostname,
+                  isGitHubPages: isGitHubPages,
+                  pathname: window.location.pathname,
+                  protocol: window.location.protocol,
+                  href: window.location.href
+                });
                 
-                // Add a base tag with the appropriate href
-                const base = document.createElement('base');
-                
-                // If there's a repo name, include it in the base path
-                if (repoName) {
-                  base.href = '/' + repoName + '/';
-                } else {
-                  // We're at username.github.io directly (root)
-                  base.href = '/';
+                if (isGitHubPages) {
+                  // Add a meta tag to confirm GitHub Pages environment
+                  const meta = document.createElement('meta');
+                  meta.name = 'deployment-target';
+                  meta.content = 'github-pages';
+                  document.head.appendChild(meta);
+                  
+                  // Log all image paths to help with debugging
+                  setTimeout(() => {
+                    const images = document.querySelectorAll('img');
+                    console.log('Images on page:', Array.from(images).map(img => ({
+                      src: img.getAttribute('src'),
+                      alt: img.getAttribute('alt'),
+                      loaded: img.complete,
+                      naturalWidth: img.naturalWidth
+                    })));
+                  }, 1000);
                 }
-                
-                document.head.appendChild(base);
-                
-                // Add meta tags to help debug
-                const meta = document.createElement('meta');
-                meta.name = 'github-pages-deployment';
-                meta.content = 'true';
-                document.head.appendChild(meta);
-                
-                const repoMeta = document.createElement('meta');
-                repoMeta.name = 'github-pages-repo';
-                repoMeta.content = repoName || 'root';
-                document.head.appendChild(repoMeta);
-                
-                console.log('GitHub Pages environment detected. Base path set to:', base.href);
-              }
+              });
             })();
           `}
         </Script>
