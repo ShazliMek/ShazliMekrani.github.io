@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { getImagePath } from "../utils/imagePath";
 
 // Define the type for a project
 interface Project {
@@ -166,29 +165,38 @@ const Projects = () => {
               {/* Project image */}
               <div className="aspect-video w-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img 
-                  src={getImagePath(project.image)} 
+                  src={project.image} 
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onLoad={() => {
+                    console.log(`✅ Image loaded successfully: ${project.title} (${project.image})`);
+                  }}
                   onError={(e) => {
                     // Log detailed information about the failing image
-                    console.error(`Image failed to load for project: ${project.title}`, {
+                    console.error(`❌ Image failed to load for project: ${project.title}`, {
                       originalPath: project.image,
-                      resolvedPath: getImagePath(project.image),
-                      hostname: typeof window !== 'undefined' ? window.location.hostname : 'SSR',
-                      isGitHubPages: typeof window !== 'undefined' ? window.location.hostname.includes('github.io') : false,
+                      href: typeof window !== 'undefined' ? window.location.href : 'SSR',
                     });
                     
-                    // GitHub Pages requires direct relative paths
-                    // Try using a fallback
+                    // Try with a different path based on environment
                     const imgElement = e.currentTarget;
-                    const isGitHubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
-                    const placeholderPath = isGitHubPages ? 'placeholder.jpg' : getImagePath('placeholder.jpg');
-                    console.log(`Trying placeholder image: ${placeholderPath}`);
-                    imgElement.src = placeholderPath;
+                    let newPath;
+                    
+                    if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+                      // GitHub Pages - try with absolute URL
+                      newPath = `./${project.image}`; // relative path for GitHub Pages
+                      console.log(`🔄 Trying relative path: ${newPath}`);
+                      imgElement.src = newPath;
+                    } else {
+                      // Local development - try with placeholder
+                      newPath = 'placeholder.jpg';
+                      console.log(`🔄 Trying placeholder: ${newPath}`);
+                      imgElement.src = newPath;
+                    }
                     
                     // If placeholder also fails, show a fallback div
                     imgElement.onerror = () => {
-                      console.error(`Placeholder image also failed to load: ${placeholderPath}`);
+                      console.error(`Placeholder image also failed to load: ${newPath}`);
                       imgElement.style.display = 'none';
                       const parent = imgElement.parentElement;
                       if (parent) {
