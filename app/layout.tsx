@@ -7,11 +7,15 @@ import Script from "next/script";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -28,41 +32,42 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <Script id="fix-paths-script" strategy="beforeInteractive">
+        {/* Advanced base path setup for GitHub Pages */}
+        <Script id="base-path-script" strategy="beforeInteractive">
           {`
-            // Fix paths for GitHub Pages
             (function() {
-              // Add base tag for GitHub Pages
-              const baseElement = document.createElement('base');
-              
-              // Check if we're on GitHub Pages
-              const isGitHubPages = window.location.hostname.includes('github.io');
-              
-              if (isGitHubPages) {
-                // For username.github.io repos, we don't need a path segment
-                if (window.location.hostname.split('.')[0] === window.location.hostname.split('.github.io')[0]) {
-                  baseElement.href = '/';
+              // For GitHub Pages deployments
+              if (window.location.hostname.includes('github.io')) {
+                // Get the repository name from the pathname
+                const pathParts = window.location.pathname.split('/');
+                const repoName = pathParts[1] || '';
+                
+                // Add a base tag with the appropriate href
+                const base = document.createElement('base');
+                
+                // If there's a repo name, include it in the base path
+                if (repoName) {
+                  base.href = '/' + repoName + '/';
                 } else {
-                  // For project repos, we need the repo name
-                  const pathSegments = window.location.pathname.split('/');
-                  if (pathSegments.length > 1) {
-                    baseElement.href = '/' + pathSegments[1] + '/';
-                  }
+                  // We're at username.github.io directly (root)
+                  base.href = '/';
                 }
                 
-                // Define a global helper for image paths
-                window.__fixImagePath = function(path) {
-                  if (!path || path === '/') return './placeholder.jpg';
-                  if (path.startsWith('http') || path.startsWith('data:')) return path;
-                  return './' + (path.startsWith('/') ? path.substring(1) : path);
-                };
-              } else {
-                // Development environment
-                baseElement.href = '/';
-                window.__fixImagePath = function(path) { return path; };
+                document.head.appendChild(base);
+                
+                // Add meta tags to help debug
+                const meta = document.createElement('meta');
+                meta.name = 'github-pages-deployment';
+                meta.content = 'true';
+                document.head.appendChild(meta);
+                
+                const repoMeta = document.createElement('meta');
+                repoMeta.name = 'github-pages-repo';
+                repoMeta.content = repoName || 'root';
+                document.head.appendChild(repoMeta);
+                
+                console.log('GitHub Pages environment detected. Base path set to:', base.href);
               }
-              
-              document.head.appendChild(baseElement);
             })();
           `}
         </Script>

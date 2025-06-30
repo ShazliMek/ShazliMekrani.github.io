@@ -1,1 +1,0 @@
-#!/bin/bash# Clean any previous build artifactsrm -rf .next out# Run the buildecho "Running Next.js build..."npm run build# Check if the build was successfulif [ -d "out" ]; then  echo "✅ Build successful! The 'out' directory was created."  echo "Contents of the 'out' directory:"  ls -la outelse  echo "❌ Build failed! The 'out' directory was not created."  exit 1fi

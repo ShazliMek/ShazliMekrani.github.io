@@ -26,15 +26,15 @@ const Contact = () => {
     setErrorMessage("");
     
     try {
-      const response = await fetch('/api/contact', {
+      // For static exports (GitHub Pages), we'll use Formspree as a workaround
+      // Create a free account at formspree.io and replace FORM_ID with your form ID
+      const response = await fetch('https://formspree.io/f/FORM_ID', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formState),
       });
-      
-      const data = await response.json();
       
       if (response.ok) {
         setIsSubmitted(true);
@@ -51,7 +51,7 @@ const Contact = () => {
           setIsSubmitted(false);
         }, 5000);
       } else {
-        setErrorMessage(data.message || 'Something went wrong. Please try again.');
+        setErrorMessage('Something went wrong. Please try again.');
       }
     } catch (error) {
       setErrorMessage('Failed to send message. Please try again later.');

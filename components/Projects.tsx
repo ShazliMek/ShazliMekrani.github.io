@@ -24,7 +24,7 @@ const Projects = () => {
       id: 1,
       title: "AI-Mock-Interview-Platform",
       description: "A platform that uses AI to simulate real-time speech recognition and interview scenarios. Multi-dimensional scoring algorithm measuring verbal metrics ",
-      image: "./public/PrepWise.png", // You'll need to add these images to your public folder
+      image: "/PrepWise.png", // You'll need to add these images to your public folder
       category: ["web", "AI"],
       technologies: ["Next.js", "Vapi", "MongoDB", "FireBase", "Tailwind CSS", "Gemini API", "WebAudio-API"],
       link: "#",
@@ -34,7 +34,7 @@ const Projects = () => {
       id: 2,
       title: "Ecommerce Application",
       description: "Developed a role-based e-commerce desktop application using C++. Implemented secure authentication, session management, and password hashing (SHA-256 + salt)",
-      image: "./public/EA.jpg",
+      image: "/EA.jpg",
       category: ["web", "AI"],
       technologies: ["C++", "Qt", "CMake", "SQLite" , "SHA-256 + salt"],
       link: "#",
@@ -44,7 +44,7 @@ const Projects = () => {
       id: 3,
       title: "Stock Overflow",
       description: "Developed a fraud detection system using XGBoost and Random Forest along with a UI for real-time financial insights and stock predictions.",
-      image: "./public/SO.jpg",
+      image: "/SO.jpg",
       category: "mobile",
       technologies: ["Near-BlockChain", "XGBoost", "Random-Forest", "AWS RDS", "Neurelo"],
       link: "#",
@@ -54,7 +54,7 @@ const Projects = () => {
       id: 4,
       title: "Interactive Virtual Pet Game",
       description: "Designed and implemented a virtual pet application with Java Swing, Built save/load features with JSON, multi-screen navigation (5+ screens)",
-      image: "./public/VPG.png",
+      image: "/VPG.png",
       category: "ai",
       technologies: ["Java", "JavaSwing", "JavaFx", "JUnit", "JSON"],
       link: "#",
@@ -64,9 +64,9 @@ const Projects = () => {
       id: 5,
       title: "Face Detection Application",
       description: "This project is a sophisticated face detection application built with Python and OpenCV that can detect and highlight faces, eyes, and full bodies in real-time video or static images.",
-      image: "./public/FD.png",
-      category: "web",
-      technologies: ["Python", "OpenCV", "Socket.io", "PostgreSQL"],
+      image: "/FD.png",
+      category: "https://github.com/ShazliMek/Python-Face-Detector",
+      technologies: ["Python", "OpenCV", "NumPy", "Haar Cascade Classifiers"],
       link: "#",
       github: "#",
     },
@@ -170,15 +170,36 @@ const Projects = () => {
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      parent.innerHTML = `
-                        <div class="w-full h-full flex items-center justify-center bg-primary-500/20">
-                          <p class="font-bold text-gray-500 dark:text-gray-300">${project.title}</p>
-                        </div>
-                      `;
-                    }
+                    // Log detailed information about the failing image
+                    console.error(`Image failed to load for project: ${project.title}`, {
+                      originalPath: project.image,
+                      resolvedPath: getImagePath(project.image),
+                      fullUrl: typeof window !== 'undefined' ? new URL(getImagePath(project.image), window.location.href).href : null,
+                      baseUrl: typeof window !== 'undefined' ? window.location.href : 'SSR',
+                      baseTag: typeof document !== 'undefined' ? document.querySelector('base')?.href : 'No base tag',
+                      hostname: typeof window !== 'undefined' ? window.location.hostname : 'SSR',
+                      pathname: typeof window !== 'undefined' ? window.location.pathname : 'SSR'
+                    });
+                    
+                    // Try using the placeholder image with full resolved path
+                    const imgElement = e.currentTarget;
+                    const placeholderPath = getImagePath('/placeholder.jpg');
+                    console.log(`Trying placeholder image: ${placeholderPath}`);
+                    imgElement.src = placeholderPath;
+                    
+                    // If placeholder also fails, show a fallback div
+                    imgElement.onerror = () => {
+                      console.error(`Placeholder image also failed to load: ${placeholderPath}`);
+                      imgElement.style.display = 'none';
+                      const parent = imgElement.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="w-full h-full flex items-center justify-center bg-primary-500/20">
+                            <p class="font-bold text-gray-500 dark:text-gray-300">${project.title}</p>
+                          </div>
+                        `;
+                      }
+                    };
                   }}
                 />
               </div>

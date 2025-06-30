@@ -5,41 +5,25 @@ import { motion } from "framer-motion";
 const Experience = () => {
   const experiences = [
     {
-      company: "Tech Innovations Inc.",
-      position: "Senior Frontend Developer",
-      period: "Jan 2023 - Present",
-      description: "Led the development of a complex dashboard application using React and TypeScript. Implemented state management with Redux, optimized performance, and mentored junior developers.",
+      company: "Diwo",
+      position: "AI/ML Intern",
+      period: "Jun 2025 - Present",
+      description: "Currently working on developing AI-driven solutions to enhance user experience and automate processes. Collaborating with data scientists to implement machine learning models.",
       achievements: [
-        "Reduced load time by 40% through code optimization and lazy loading",
-        "Implemented CI/CD pipeline that decreased deployment time by 60%",
-        "Led the migration from legacy codebase to modern React architecture"
+        "Successfully impemented an MCP Server",
       ],
-      technologies: ["React", "TypeScript", "Redux", "GraphQL", "Tailwind CSS"]
+      technologies: ["MCP", "LLMs", "Python", "React.js", "Django"]
     },
     {
-      company: "Digital Solutions Ltd.",
-      position: "Full Stack Developer",
-      period: "Mar 2020 - Dec 2022",
-      description: "Developed and maintained various web applications for clients across different industries. Worked on both frontend and backend development using Node.js, React, and MongoDB.",
+      company: "The Spoke and Rim Tavern",
+      position: "Line Cook",
+      period: "Jan 2024 - April 2024",
+      description: "Worked as in interm manager",
       achievements: [
-        "Built an e-commerce platform that increased client's online sales by 35%",
-        "Created a custom CMS that improved content management efficiency by 50%",
-        "Implemented responsive designs that enhanced mobile user engagement by 25%"
+        "Managed kitchen operations and trained 20+ staff members, maintaining a 95% customer satisfaction rate, successfully reducing operational downtime by 20%",
       ],
-      technologies: ["JavaScript", "React", "Node.js", "Express", "MongoDB", "AWS"]
+      technologies: ["MCP", "LLMs", "Python", "React.js", "Django"]
     },
-    {
-      company: "Creative Web Agency",
-      position: "Web Developer",
-      period: "Jun 2018 - Feb 2020",
-      description: "Collaborated with designers to implement responsive and interactive web experiences for clients. Focused on frontend development with occasional backend work.",
-      achievements: [
-        "Delivered 20+ client websites with 100% on-time completion rate",
-        "Developed custom WordPress themes and plugins for various clients",
-        "Implemented performance optimizations that improved PageSpeed scores by 30%"
-      ],
-      technologies: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "SASS"]
-    }
   ];
 
   return (
@@ -126,39 +110,29 @@ const Experience = () => {
         </div>
         
         {/* Education section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-20"
-        >
-          <h3 className="text-2xl font-bold mb-8 text-center">Education</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover-scale">
-              <h4 className="text-lg font-bold text-primary-500 mb-2">Master of Computer Science</h4>
-              <div className="flex justify-between items-center mb-4">
-                <h5 className="font-semibold">Tech University</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400">2016 - 2018</span>
-              </div>
-              <p className="text-gray-600 dark:text-gray-300">
-                Specialized in Web Technologies and Artificial Intelligence. Graduated with honors and completed a thesis on efficient algorithms for web applications.
-              </p>
-            </div>
-            
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover-scale">
-              <h4 className="text-lg font-bold text-primary-500 mb-2">Bachelor of Science in Information Technology</h4>
-              <div className="flex justify-between items-center mb-4">
-                <h5 className="font-semibold">State University</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400">2012 - 2016</span>
-              </div>
-              <p className="text-gray-600 dark:text-gray-300">
-                Focused on software development and database management. Participated in multiple hackathons and coding competitions.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+       {/* Education section */}
+<motion.div 
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  viewport={{ once: true }}
+  className="mt-20"
+>
+  <h3 className="text-2xl font-bold mb-8 text-center">Education</h3>
+  
+  <div className="flex justify-center">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover-scale max-w-md w-full">
+      <h4 className="text-lg font-bold text-primary-500 mb-2">Honours Specilization in Computer Science</h4>
+      <div className="flex justify-between items-center mb-4">
+        <h5 className="font-semibold">Western University</h5>
+        <span className="text-sm text-gray-500 dark:text-gray-400">2022 - Present</span>
+      </div>
+      <p className="text-gray-600 dark:text-gray-300">
+        Specializing in Web Technologies and Artificial Intelligence. Graduating with honors and on track to complete a thesis on efficient algorithms for web applications.
+      </p>
+    </div>
+  </div>
+</motion.div>
       </div>
     </section>
   );
