@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 
 const About = () => {
   const skills = [
-    { name: "JavaScript", level: 90 },
-    { name: "React", level: 85 },
-    { name: "Node.js", level: 80 },
-    { name: "TypeScript", level: 75 },
-    { name: "Next.js", level: 85 },
-    { name: "CSS/Tailwind", level: 95 },
+    { name: "Front End", level: 90 },
+    { name: "Backend", level: 85 },
+    { name: "Machine Learning", level: 80 },
+    { name: "Game Development", level: 75 },
+    { name: "DevOps", level: 85 },
+    { name: "Testing and Automation", level: 65 },
   ];
 
   return (
@@ -47,12 +47,12 @@ const About = () => {
           >
             <h3 className="text-2xl font-bold mb-4">Who am I?</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              I&apos;m a passionate <span className="text-primary-500 font-semibold">Full Stack Developer</span> with a 
-              strong focus on creating responsive and user-friendly web applications. With over 5 years of 
-              experience in web development, I specialize in building modern, efficient, and scalable solutions.
+              I&apos;m a passionate <span className="text-primary-500 font-semibold">Computer Science Student</span> with a 
+              strong focus on creating responsive and user-friendly applications. With over 5 years of 
+              experience in different disciplines, I specialize in building modern, efficient, and scalable solutions.
             </p>
             <p className="text-gray-600 dark:text-gray-300">
-              My journey in web development started in 2018 when I built my first interactive website. 
+              My journey as a dev started in 2018 when I built my first interactive website. 
               Since then, I&apos;ve worked on numerous projects ranging from small business websites to complex 
               enterprise applications, always striving to deliver high-quality code and exceptional user experiences.
             </p>
@@ -130,19 +130,19 @@ const About = () => {
                   <svg className="w-5 h-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>Completed 50+ projects</span>
+                  <span>Completed 10+ projects</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>Worked with clients from 10+ countries</span>
+                  <span>Worked with AI/ML, Web Dev, DevOps, Game Dev</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>3,000+ hours of coding</span>
+                  <span>1,000+ hours of coding</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">

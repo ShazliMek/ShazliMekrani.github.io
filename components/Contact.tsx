@@ -177,7 +177,7 @@ const Contact = () => {
                   </svg>
                 </a>
                 <a 
-                  href="shttps://www.instagram.com/shazli.mekrani/" 
+                  href="https://www.instagram.com/shazli.mekrani/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-white dark:bg-gray-800 hover:bg-primary-500 text-gray-600 hover:text-white dark:text-gray-300 dark:hover:text-white transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center shadow-md"

@@ -90,7 +90,7 @@ const Hero = () => {
               <div className="absolute inset-0 flex items-center justify-center">
                 {/* Replace with your own image */}
                 <div className="w-56 h-56 md:w-72 md:h-72 lg:w-88 lg:h-88 rounded-full bg-primary-500/30 flex items-center justify-center">
-                  <p className="text-center font-bold">Your Photo Here</p>
+                  <p className="text-center font-bold"></p>
                 </div>
               </div>
               
