@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 // Adjust the import path to correctly point to the types file
 import { TechStackData } from '../data/techStackTypes';
 import techStackData from '../data/techStack.json';
@@ -10,6 +11,17 @@ import { SiTypescript, SiNextdotjs, SiExpress, SiMongodb, SiPostgresql, SiRedux,
 
 const TechStack = () => {
   const { technologies, categories } = techStackData as TechStackData;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Icon mapping for technologies
   const getIconForTech = (techName: string) => {
@@ -62,35 +74,55 @@ const TechStack = () => {
           </motion.p>
         </div>
 
-        {/* Scrolling tech stack */}
+        {/* Scrolling tech stack - simplified on mobile */}
         <div className="relative w-full py-6 overflow-x-hidden">
-          <div className="tech-scroll">
-            {scrollItems.map((tech, index) => (
-              <div
-                key={index}
-                className="group inline-flex flex-col items-center mx-8 transition-transform duration-300 hover:scale-110"
-              >
-                <div className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-4 hover-glow">
-                  {getIconForTech(tech.name)}
+          {isMobile ? (
+            // Static grid layout for mobile
+            <div className="grid grid-cols-4 gap-4 justify-items-center">
+              {technologies.slice(0, 8).map((tech, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center transition-transform duration-300"
+                >
+                  <div className="flex items-center justify-center w-14 h-14 mb-2 bg-white dark:bg-gray-800 rounded-full shadow-md p-3">
+                    {getIconForTech(tech.name)}
+                  </div>
+                  <p className="text-xs font-medium text-center opacity-80">
+                    {tech.name}
+                  </p>
                 </div>
-                <p className="text-sm font-medium opacity-80 group-hover:opacity-100 group-hover:text-primary-500 transition-colors duration-300">
-                  {tech.name}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            // Original scrolling animation for desktop
+            <div className="tech-scroll">
+              {scrollItems.map((tech, index) => (
+                <div
+                  key={index}
+                  className="group inline-flex flex-col items-center mx-8 transition-transform duration-300 hover:scale-110"
+                >
+                  <div className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-4 hover-glow">
+                    {getIconForTech(tech.name)}
+                  </div>
+                  <p className="text-sm font-medium opacity-80 group-hover:opacity-100 group-hover:text-primary-500 transition-colors duration-300">
+                    {tech.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Additional tech categories */}
+        {/* Additional tech categories - reduced animations on mobile */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={isMobile ? {} : { opacity: 0, y: 20 }}
+          whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+          transition={isMobile ? {} : { duration: 0.4, delay: 0.2 }}
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
         >
           {categories.map((category, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover-scale transition-all duration-300">
+            <div key={index} className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md ${isMobile ? '' : 'hover-scale'} transition-all duration-300`}>
               <div className="rounded-full bg-primary-500/10 w-12 h-12 flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   {category.name === "Frontend" && (

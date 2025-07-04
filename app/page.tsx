@@ -6,10 +6,12 @@ import TechStack from "@/components/TechStack";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-// import { Metadata } from "next";
+import GradientBackground from "@/components/GradientBackground";
+
 export default function Home() {
   return (
     <>
+      <GradientBackground />
       <Navbar />
       <main>
         <Hero />

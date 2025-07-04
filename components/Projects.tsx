@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Define the type for a project
 interface Project {
@@ -17,6 +17,17 @@ interface Project {
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const projects: Project[] = [
     {
@@ -138,8 +149,8 @@ const Projects = () => {
             <motion.button
               key={index}
               onClick={() => setActiveFilter(filter.value)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={isMobile ? {} : { scale: 1.05 }}
+              whileTap={isMobile ? {} : { scale: 0.95 }}
               className={`px-5 py-2 rounded-full text-sm md:text-base font-medium transition-all duration-300 ${
                 activeFilter === filter.value
                   ? "bg-primary-500 text-white"
@@ -156,18 +167,18 @@ const Projects = () => {
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={isMobile ? {} : { opacity: 0, y: 30 }}
+              whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+              transition={isMobile ? {} : { duration: 0.3, delay: index * 0.05 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-lg hover-scale"
+              className={`group relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-lg ${isMobile ? '' : 'hover-scale'}`}
             >
               {/* Project image */}
               <div className="aspect-video w-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className={`w-full h-full object-cover transition-transform duration-300 ${isMobile ? '' : 'group-hover:scale-105'}`}
                   onLoad={() => {
                     console.log(`✅ Image loaded successfully: ${project.title} (${project.image})`);
                   }}

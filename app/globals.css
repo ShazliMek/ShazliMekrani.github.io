@@ -75,7 +75,7 @@ body {
   background: rgba(14, 165, 233, 0.8);
 }
 
-/* Tech stack scrolling */
+/* Tech stack scrolling - disabled on mobile for performance */
 .tech-scroll {
   animation: tech-scroll 30s linear infinite;
   display: flex;
@@ -92,5 +92,32 @@ body {
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Disable expensive animations on mobile */
+  * {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.1s !important;
+  }
+  
+  /* Disable tech stack animation on mobile */
+  .tech-scroll {
+    animation: none;
+  }
+  
+  /* Reduce blur effects on mobile */
+  .gradient-bg > div {
+    filter: blur(30px) !important;
+  }
+  
+  /* Disable hover effects on mobile */
+  .hover-scale:hover,
+  .hover-glow:hover {
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
