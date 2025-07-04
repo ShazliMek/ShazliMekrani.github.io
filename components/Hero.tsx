@@ -6,10 +6,14 @@ import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      const isMobileDevice = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(isMobileDevice);
+      console.log('Hero - Mobile detection:', isMobileDevice, 'Width:', window.innerWidth);
     };
     
     checkMobile();
@@ -21,9 +25,9 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            initial={isMobile ? {} : { opacity: 0, x: -50 }}
-            animate={isMobile ? {} : { opacity: 1, x: 0 }}
-            transition={isMobile ? {} : { duration: 0.5 }}
+            initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0, x: -50 }}
+            animate={!isClient || isMobile ? { opacity: 1 } : { opacity: 1, x: 0 }}
+            transition={!isClient || isMobile ? { duration: 0 } : { duration: 0.5 }}
             className="space-y-6"
           >
             <div className="flex items-center space-x-2">
@@ -34,7 +38,9 @@ const Hero = () => {
             <h1 className="text-4xl md:text-6xl font-bold">
               <span className="block">Shazli Mekrani</span>
               <span className="block mt-2 bg-gradient-to-r from-primary-500 to-violet-500 bg-clip-text text-transparent">
-                {isMobile ? (
+                {!isClient ? (
+                  <span>Software Engineer</span>
+                ) : isMobile ? (
                   <span>Software Engineer</span>
                 ) : (
                   <TypeAnimation
@@ -62,9 +68,9 @@ const Hero = () => {
             
             <motion.div 
               className="flex flex-col sm:flex-row gap-4"
-              initial={isMobile ? {} : { opacity: 0 }}
-              animate={isMobile ? {} : { opacity: 1 }}
-              transition={isMobile ? {} : { delay: 0.2, duration: 0.3 }}
+              initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0 }}
+              animate={!isClient || isMobile ? { opacity: 1 } : { opacity: 1 }}
+              transition={!isClient || isMobile ? { duration: 0 } : { delay: 0.2, duration: 0.3 }}
             >
               <a 
                 href="#projects" 
@@ -96,9 +102,9 @@ const Hero = () => {
           </motion.div>
           
           <motion.div
-            initial={isMobile ? {} : { opacity: 0, scale: 0.9 }}
-            animate={isMobile ? {} : { opacity: 1, scale: 1 }}
-            transition={isMobile ? {} : { duration: 0.5 }}
+            initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+            animate={!isClient || isMobile ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+            transition={!isClient || isMobile ? { duration: 0 } : { duration: 0.5 }}
             className="flex justify-center"
           >
             <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">

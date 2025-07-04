@@ -12,10 +12,14 @@ import { SiTypescript, SiNextdotjs, SiExpress, SiMongodb, SiPostgresql, SiRedux,
 const TechStack = () => {
   const { technologies, categories } = techStackData as TechStackData;
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      const isMobileDevice = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(isMobileDevice);
+      console.log('TechStack - Mobile detection:', isMobileDevice, 'Width:', window.innerWidth);
     };
     
     checkMobile();
@@ -54,9 +58,9 @@ const TechStack = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center mb-12">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={!isClient || isMobile ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={!isClient || isMobile ? { duration: 0 } : { duration: 0.3 }}
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center mb-4 relative"
           >
@@ -64,9 +68,9 @@ const TechStack = () => {
             <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-primary-500"></span>
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0 }}
+            whileInView={!isClient || isMobile ? { opacity: 1 } : { opacity: 1 }}
+            transition={!isClient || isMobile ? { duration: 0 } : { duration: 0.3, delay: 0.1 }}
             viewport={{ once: true }}
             className="text-gray-600 dark:text-gray-300 text-center max-w-2xl"
           >
@@ -75,19 +79,30 @@ const TechStack = () => {
         </div>
 
         {/* Scrolling tech stack - simplified on mobile */}
-        <div className="relative w-full py-6 overflow-x-hidden">
-          {isMobile ? (
-            // Static grid layout for mobile
-            <div className="grid grid-cols-4 gap-4 justify-items-center">
-              {technologies.slice(0, 8).map((tech, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center transition-transform duration-300"
-                >
-                  <div className="flex items-center justify-center w-14 h-14 mb-2 bg-white dark:bg-gray-800 rounded-full shadow-md p-3">
+        <div className="relative w-full py-6">
+          {!isClient ? (
+            // Fallback during SSR - simple grid
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center px-4">
+              {technologies.slice(0, 12).map((tech, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="w-16 h-16 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-3 flex items-center justify-center">
                     {getIconForTech(tech.name)}
                   </div>
-                  <p className="text-xs font-medium text-center opacity-80">
+                  <p className="text-xs font-medium text-center opacity-80 leading-tight">
+                    {tech.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : isMobile ? (
+            // Static grid layout for mobile
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center px-4">
+              {technologies.slice(0, 12).map((tech, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="w-16 h-16 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-3 flex items-center justify-center">
+                    {getIconForTech(tech.name)}
+                  </div>
+                  <p className="text-xs font-medium text-center opacity-80 leading-tight">
                     {tech.name}
                   </p>
                 </div>
@@ -95,29 +110,31 @@ const TechStack = () => {
             </div>
           ) : (
             // Original scrolling animation for desktop
-            <div className="tech-scroll">
-              {scrollItems.map((tech, index) => (
-                <div
-                  key={index}
-                  className="group inline-flex flex-col items-center mx-8 transition-transform duration-300 hover:scale-110"
-                >
-                  <div className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-4 hover-glow">
-                    {getIconForTech(tech.name)}
+            <div className="overflow-x-hidden">
+              <div className="tech-scroll">
+                {scrollItems.map((tech, index) => (
+                  <div
+                    key={index}
+                    className="group inline-flex flex-col items-center mx-8 transition-transform duration-300 hover:scale-110"
+                  >
+                    <div className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-3 bg-white dark:bg-gray-800 rounded-full shadow-md p-4 hover-glow">
+                      {getIconForTech(tech.name)}
+                    </div>
+                    <p className="text-sm font-medium opacity-80 group-hover:opacity-100 group-hover:text-primary-500 transition-colors duration-300">
+                      {tech.name}
+                    </p>
                   </div>
-                  <p className="text-sm font-medium opacity-80 group-hover:opacity-100 group-hover:text-primary-500 transition-colors duration-300">
-                    {tech.name}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </div>
 
         {/* Additional tech categories - reduced animations on mobile */}
         <motion.div 
-          initial={isMobile ? {} : { opacity: 0, y: 20 }}
-          whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
-          transition={isMobile ? {} : { duration: 0.4, delay: 0.2 }}
+          initial={!isClient || isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
+          whileInView={!isClient || isMobile ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          transition={!isClient || isMobile ? { duration: 0 } : { duration: 0.4, delay: 0.2 }}
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
         >

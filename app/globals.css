@@ -97,20 +97,13 @@ body {
 
 /* Mobile performance optimizations */
 @media (max-width: 768px) {
-  /* Disable expensive animations on mobile */
-  * {
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
-    transition-duration: 0.1s !important;
-  }
-  
-  /* Disable tech stack animation on mobile */
+  /* Disable expensive animations on mobile but preserve basic functionality */
   .tech-scroll {
-    animation: none;
+    animation: none !important;
   }
   
   /* Reduce blur effects on mobile */
-  .gradient-bg > div {
+  .gradient-bg > div[class*="blur-"] {
     filter: blur(30px) !important;
   }
   
@@ -119,5 +112,16 @@ body {
   .hover-glow:hover {
     transform: none !important;
     box-shadow: none !important;
+  }
+  
+  /* Optimize animations for mobile */
+  [class*="animate-"],
+  .animate-pulse {
+    animation-duration: 0.5s !important;
+  }
+  
+  /* Ensure text remains visible */
+  h1, h2, h3, p, span {
+    animation: none !important;
   }
 }
